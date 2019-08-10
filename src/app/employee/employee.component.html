@@ -1,44 +1,62 @@
-<div class="jimbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 offset-md-3">
+<div class="card m-3">
+  <h5 class="card-header">Registration form for new emploee</h5>
+  <div class="card-body">
+    <form [formGroup]="empForm">
+      <div class="form-col">
+        <div class="form-group">
 
-        <form [formGroup]="empForm">
-          <div class="form-group">
-            <label>User Name</label>
-            <input type="text" formControlName="empName" class="form-control"
-                   [ngModel]="empName"
-                   [ngClass]="{'is-invalid': submitted && f.empForm.errors}"
-            />
-            <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
-              <div *ngIf="f.userName.errors.required">Name is empty</div>
-            </div>
+          <label>User name:</label>
+          <input type="text" formControlName="empName" required class="form-control"
+                 [ngModel]="empName"
+                 [ngClass]="{'is-invalid': submitted && f['empName'].errors}"
+          />
+          <div *ngIf="submitted && f['empName'].errors" class="invalid-feedback">
+            <div *ngIf="f['empName'].errors">User name is required</div>
           </div>
+        </div>
 
-          <div class="form-group">
-            <label>Departament</label>
-            <select id = "dpIdEmp"
-                    formControlName="departamentEntity"
-                    class="form-control" [(ngModel)]="departamentEntity">
-              <option *ngFor="let depart of departments" [ngValue]="depart">{{depart.dpName}}</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label>Departament</label>
+          <select id="dpIdEmp"
+                  formControlName="departamentEntity"
+                  class="form-control" [(ngModel)]="departamentEntity">
+            <option *ngFor="let depart of departments" [ngValue]="depart">{{depart.dpName}}</option>
+          </select>
+        </div>
 
-          <div class="form-group form-check">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                 formControlName="empActive"
+                 [ngModel]="empActive">
+          <label class="form-check-label" for="exampleCheck1">Active</label>
+        </div>
 
-            <input type="checkbox" class="form-check-input" id="exampleCheck1"
-                   formControlName="empActive"
-                   [ngModel]="empActive">
-            <label class="form-check-label" for="exampleCheck1">Active</label>
-          </div>
-
-
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" (click)="add()">Save</button>
-            <button type="button" class="btn btn-light" (click)="cancel()">Cancel</button>
-          </div>
-        </form>
+        <div class="text-center">
+          <button class="btn btn-primary mr-1" (click)="add()">Save</button>
+          <button class="btn btn-secondary" type="reset" (click)="cancel()">Cancel</button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
+</div>
+<div class="m-3">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <!--<th scope="col">#</th>-->
+      <th scope="col">empId</th>
+      <th scope="col">empName</th>
+      <th scope="col">empActive</th>
+      <th scope="col">empDepartment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let employee of employees">
+      <th scope="row">{{employee.empId}}</th>
+      <td>{{employee.empName}}</td>
+      <td>{{employee.empActive}}</td>
+      <td>{{employee.departamentEntity}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>
