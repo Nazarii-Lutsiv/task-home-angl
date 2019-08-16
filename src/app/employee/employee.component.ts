@@ -73,7 +73,7 @@ export class EmployeeComponent implements OnInit {
   }
 
   delete(emloyee: Employee): void {
-    this.employees = this.employees.filter(e => e !== e);
+    this.employees = this.employees.filter(e => e !== emloyee);
     this.empService.deleteEmployee(emloyee.empID).subscribe();
   }
 }

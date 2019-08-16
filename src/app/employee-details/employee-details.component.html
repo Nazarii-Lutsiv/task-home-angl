@@ -1,3 +1,46 @@
-<p>
-  employee-details works!
-</p>
+<div *ngIf="employee" class="card ">
+  <h5 class="card-header">Employee edirot - {{employee.empName | uppercase}}</h5>
+  <div class="card-body">
+    <form [formGroup]="empForm">
+      <div class="form-col">
+        <div class="form-group">
+
+          <label>User name:</label>
+          <input type="text" formControlName="empName" required class="form-control"
+                 [ngModel]="empName"
+                 [ngClass]="{'is-invalid': submitted && f['empName'].errors}"
+          />
+          <div *ngIf="submitted && f['empName'].errors" class="invalid-feedback">
+            <div *ngIf="f['empName'].errors">User name is required</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Departament</label>
+          <select id="dpIdEmp"
+                  formControlName="departamentEntity"
+                  class="form-control" [(ngModel)]="departamentEntity"
+                  [ngClass]="{'is-invalid': submitted && f['departamentEntity'].untouched}"
+          >
+            <option *ngFor="let depart of departments" [ngValue]="depart">{{depart.dpName}}</option>
+          </select>
+          <div *ngIf="submitted && f['departamentEntity'].untouched" class="invalid-feedback">
+            <div *ngIf="f['departamentEntity'].errors">Department is required</div>
+          </div>
+        </div>
+
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                 formControlName="empActive"
+                 [ngModel]="empActive">
+          <label class="form-check-label" for="exampleCheck1">Active</label>
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-primary mr-1" (click)="save()">Save</button>
+          <button class="btn btn-secondary" type="reset" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -67,9 +67,9 @@
           <td class="text-center">{{employee.empActive}}</td>
           <td class="text-center">{{employee.departamentEntity.dpName}}</td>
           <td class="d-flex justify-content-between">
-            <button type="button" class="btn btn-primary" title="View"><i class="fa fa-eye"></i></button>
-            <button type="button" class="btn btn-success ml-1" title="Edit"><i class="fa fa-edit"></i></button>
-            <button type="button" class="btn btn-danger ml-1" title="Delete"><i class="fa fa-trash"></i></button>
+            <!--<button type="button" class="btn btn-primary" title="View"><i class="fa fa-eye"></i></button>-->
+            <a routerLink="/detail/{{employee.empID}}"><button type="button" class="btn btn-success ml-1" title="Edit"><i class="fa fa-edit"></i></button></a>
+            <button type="button" class="btn btn-danger ml-1" title="Delete" (click)="delete(employee)"><i class="fa fa-trash"></i></button>
           </td>
         </tr>
         </tbody>
