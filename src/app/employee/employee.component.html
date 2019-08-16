@@ -1,44 +1,80 @@
-<div class="jimbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 offset-md-3">
+<div class="card ">
+  <h5 class="card-header">Registration form for new emploee</h5>
+  <div class="card-body">
+    <form [formGroup]="empForm">
+      <div class="form-col">
+        <div class="form-group">
 
-        <form [formGroup]="empForm">
-          <div class="form-group">
-            <label>User Name</label>
-            <input type="text" formControlName="empName" class="form-control"
-                   [ngModel]="empName"
-                   [ngClass]="{'is-invalid': submitted && f.empForm.errors}"
-            />
-            <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
-              <div *ngIf="f.userName.errors.required">Name is empty</div>
-            </div>
+          <label>User name:</label>
+          <input type="text" formControlName="empName" required class="form-control"
+                 [ngModel]="empName"
+                 [ngClass]="{'is-invalid': submitted && f['empName'].errors}"
+          />
+          <div *ngIf="submitted && f['empName'].errors" class="invalid-feedback">
+            <div *ngIf="f['empName'].errors">User name is required</div>
           </div>
+        </div>
 
-          <div class="form-group">
-            <label>Departament</label>
-            <select id = "dpIdEmp"
-                    formControlName="departamentEntity"
-                    class="form-control" [(ngModel)]="departamentEntity">
-              <option *ngFor="let depart of departments" [ngValue]="depart">{{depart.dpName}}</option>
-            </select>
+        <div class="form-group">
+          <label>Departament</label>
+          <select id="dpIdEmp"
+                  formControlName="departamentEntity"
+                  class="form-control" [(ngModel)]="departamentEntity"
+                  [ngClass]="{'is-invalid': submitted && f['departamentEntity'].untouched}"
+          >
+            <option *ngFor="let depart of departments" [ngValue]="depart">{{depart.dpName}}</option>
+          </select>
+          <div *ngIf="submitted && f['departamentEntity'].untouched" class="invalid-feedback">
+            <div *ngIf="f['departamentEntity'].errors">Department is required</div>
           </div>
+        </div>
 
-          <div class="form-group form-check">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                 formControlName="empActive"
+                 [ngModel]="empActive">
+          <label class="form-check-label" for="exampleCheck1">Active</label>
+        </div>
 
-            <input type="checkbox" class="form-check-input" id="exampleCheck1"
-                   formControlName="empActive"
-                   [ngModel]="empActive">
-            <label class="form-check-label" for="exampleCheck1">Active</label>
-          </div>
-
-
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" (click)="add()">Save</button>
-            <button type="button" class="btn btn-light" (click)="cancel()">Cancel</button>
-          </div>
-        </form>
+        <div class="text-center">
+          <button class="btn btn-primary mr-1" (click)="add()">Save</button>
+          <button class="btn btn-secondary" type="reset" (click)="cancel()">Cancel</button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container d-flex justify-content-center">
+  <!--<div class="row">-->
+    <!--<div class="col-12">-->
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">empId</th>
+          <th scope="col">empName</th>
+          <th scope="col">empActive</th>
+          <th scope="col">empDepartment</th>
+          <th scope="col">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let employee of employees">
+          <th scope="row">{{employee.empID}}</th>
+          <td>{{employee.empName}}</td>
+          <td class="text-center">{{employee.empActive}}</td>
+          <td class="text-center">{{employee.departamentEntity.dpName}}</td>
+          <td class="d-flex justify-content-between">
+            <button type="button" class="btn btn-primary" title="View"><i class="fa fa-eye"></i></button>
+            <button type="button" class="btn btn-success ml-1" title="Edit"><i class="fa fa-edit"></i></button>
+            <button type="button" class="btn btn-danger ml-1" title="Delete"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    <!--</div>-->
+  <!--</div>-->
+</div>
+

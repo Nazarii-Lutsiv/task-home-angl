@@ -9,6 +9,7 @@ import {Observable} from 'rxjs';
 export class EmployeeService {
 
   private empUrl = 'http://localhost:8080/employee';
+  private employee: Employee;
 
   constructor(private http: HttpClient) {
   }
@@ -31,5 +32,13 @@ export class EmployeeService {
 
   getEmployee(id: number): Observable<Employee> {
     return this.http.get<Employee>(`${this.empUrl}/${id}`);
+  }
+
+  setter(employee: Employee) {
+    this.employee = employee;
+  }
+
+  getter() {
+    return this.employee;
   }
 }

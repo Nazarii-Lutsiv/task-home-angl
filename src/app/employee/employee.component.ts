@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -24,19 +24,21 @@ export class EmployeeComponent implements OnInit {
     private depService: DeparService,
     private formBuilder: FormBuilder,
     private location: Location
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.initDepList();
     this.getEmployee();
     this.empForm = this.formBuilder.group({
       empName: ['empName', Validators.required],
-      empActive: ['empActive', Validators.required],
-      departamentEntity: ['departamentEntity']
+      departamentEntity: ['departamentEntity', Validators.required],
+      empActive: ['empActive']
     });
   }
 
   // convenience getter for easy access to form fields
+  // getEmploeeName
   get f() {
     return this.empForm.controls;
   }
@@ -47,20 +49,31 @@ export class EmployeeComponent implements OnInit {
 
   getEmployee(): void {
     this.empService.getEmployeeList()
-      .subscribe(employees => this.employees = employees);
+      .subscribe(employees => {this.employees = employees;
+        console.log(employees); });
   }
 
   add(): void {
+    this.submitted = true;
+    if (this.empForm.invalid) {
+      return;
+    }
+    this.empService.createEmployee(this.empForm.value).subscribe(value => this.employees.push(value));
+
     console.log(this.empForm.value);
-    this.empService.createEmployee(this.empForm.value).subscribe(value => console.log(value));
+    // this.getEmployee();
   }
 
   cancel(): void {
-    this.location.back();
+    this.submitted = false;
+    this.empForm.reset();
+    // this.empForm.controls['empName'].setValue(null);
+    // this.empForm.controls['empActive'].setValue(null);
+    // this.location.back();
   }
 
   delete(emloyee: Employee): void {
     this.employees = this.employees.filter(e => e !== e);
-    this.empService.deleteEmployee(emloyee.empId).subscribe();
+    this.empService.deleteEmployee(emloyee.empID).subscribe();
   }
 }
