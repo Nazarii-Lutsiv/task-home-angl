@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import {MatButtonModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatTableModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -23,6 +25,15 @@ export class XhrInterceptor implements HttpInterceptor {
     return next.handle(xhr);
   }
 }
+
+const modules = [
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatPaginatorModule,
+  MatTableModule,
+  MatRippleModule
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,14 +41,17 @@ export class XhrInterceptor implements HttpInterceptor {
     RegistrationComponent,
     HomeComponent,
     EmployeeComponent,
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
+    // ...modules
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ...modules
   ],
   providers: [UserService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Location} from '@angular/common';
 import {DeparService} from '../depar.service';
 import {Departament} from '../Departament';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'app-employee',
@@ -13,11 +14,15 @@ import {Departament} from '../Departament';
   styleUrls: ['./employee.component.css']
 })
 export class EmployeeComponent implements OnInit {
-  empForm: FormGroup;
   submitted = false;
-
+  empForm: FormGroup;
   employees: Employee[];
   departments: Departament[];
+  // for mat-table
+  dataSource: MatTableDataSource<Employee>;
+  displayedColumns: string[] = ['ID', 'Name', 'Active', 'Department', 'Actions'];
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private empService: EmployeeService,
@@ -25,11 +30,14 @@ export class EmployeeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location
   ) {
+    this.dataSource = new MatTableDataSource<Employee>(this.employees);
   }
 
   ngOnInit(): void {
     this.initDepList();
     this.getEmployee();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.empForm = this.formBuilder.group({
       empName: ['empName', Validators.required],
       departamentEntity: ['departamentEntity', Validators.required],
@@ -37,8 +45,14 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   // convenience getter for easy access to form fields
-  // getEmploeeName
   get f() {
     return this.empForm.controls;
   }
@@ -49,7 +63,14 @@ export class EmployeeComponent implements OnInit {
 
   getEmployee(): void {
     this.empService.getEmployeeList()
-      .subscribe(employees => {this.employees = employees;
+      .subscribe(employees => {
+        employees.sort((emp1, emp2) => {
+          if (emp1.empID > emp2.empID) {return 1; }
+          if (emp1.empID < emp2.empID) {return -1; }
+          return 0;
+        })
+        this.employees = employees;
+        this.dataSource.data = employees;
         console.log(employees); });
   }
 
@@ -58,22 +79,23 @@ export class EmployeeComponent implements OnInit {
     if (this.empForm.invalid) {
       return;
     }
-    this.empService.createEmployee(this.empForm.value).subscribe(value => this.employees.push(value));
-
+    this.empService.createEmployee(this.empForm.value).subscribe(value => {
+      this.employees.push(value);
+      this.dataSource.data.push(value);
+      this.dataSource.data = [...this.dataSource.data];
+    });
     console.log(this.empForm.value);
-    // this.getEmployee();
   }
 
   cancel(): void {
     this.submitted = false;
     this.empForm.reset();
-    // this.empForm.controls['empName'].setValue(null);
-    // this.empForm.controls['empActive'].setValue(null);
-    // this.location.back();
   }
 
   delete(emloyee: Employee): void {
-    this.employees = this.employees.filter(e => e !== emloyee);
     this.empService.deleteEmployee(emloyee.empID).subscribe();
+    this.employees = this.employees.filter(e => e !== emloyee);
+    this.dataSource.data = this.dataSource.data.filter(e => e !== emloyee);
+    this.dataSource.data = [...this.dataSource.data];
   }
 }

@@ -57,7 +57,7 @@ export class EmployeeDetailsComponent implements OnInit {
 
   save(): void {
     this.submitted = true
-    if (this.empForm.invalid){
+    if (this.empForm.invalid) {
       return;
     }
     const id = +this.route.snapshot.paramMap.get('id');

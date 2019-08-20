@@ -9,3 +9,14 @@ h4 {
   margin: 2rem 0rem 1rem;
 }
 
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+

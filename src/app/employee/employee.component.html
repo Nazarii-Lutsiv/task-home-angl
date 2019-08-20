@@ -1,5 +1,5 @@
 <div class="card ">
-  <h5 class="card-header">Registration form for new emploee</h5>
+  <h5 class="card-header">Registration form for new employee</h5>
   <div class="card-body">
     <form [formGroup]="empForm">
       <div class="form-col">
@@ -45,36 +45,93 @@
   </div>
 </div>
 
-<!-- Add icon library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="container d-flex justify-content-center">
-  <!--<div class="row">-->
-    <!--<div class="col-12">-->
-      <table class="table table-striped">
-        <thead class="thead-dark">
-        <tr>
-          <th scope="col">empId</th>
-          <th scope="col">empName</th>
-          <th scope="col">empActive</th>
-          <th scope="col">empDepartment</th>
-          <th scope="col">Operations</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let employee of employees">
-          <th scope="row">{{employee.empID}}</th>
-          <td>{{employee.empName}}</td>
-          <td class="text-center">{{employee.empActive}}</td>
-          <td class="text-center">{{employee.departamentEntity.dpName}}</td>
-          <td class="d-flex justify-content-between">
-            <!--<button type="button" class="btn btn-primary" title="View"><i class="fa fa-eye"></i></button>-->
-            <a routerLink="/detail/{{employee.empID}}"><button type="button" class="btn btn-success ml-1" title="Edit"><i class="fa fa-edit"></i></button></a>
-            <button type="button" class="btn btn-danger ml-1" title="Delete" (click)="delete(employee)"><i class="fa fa-trash"></i></button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    <!--</div>-->
-  <!--</div>-->
+<!--Old view of table-->
+<!--Add icon library-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--<div class="container d-flex justify-content-center">-->
+<!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="col-12">&ndash;&gt;-->
+<!--<table #dataTable id="myTable" class="table table-striped">-->
+<!--<thead class="thead-dark">-->
+<!--<tr>-->
+<!--<th scope="col">empId</th>-->
+<!--<th scope="col">empName</th>-->
+<!--<th scope="col">empActive</th>-->
+<!--<th scope="col">empDepartment</th>-->
+<!--<th scope="col">Operations</th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr *ngFor="let employee of employees">-->
+<!--<th scope="row">{{employee.empID}}</th>-->
+<!--<td>{{employee.empName}}</td>-->
+<!--<td class="text-center">{{employee.empActive}}</td>-->
+<!--<td class="text-center">{{employee.departamentEntity.dpName}}</td>-->
+<!--<td class="d-flex justify-content-between">-->
+<!--&lt;!&ndash;<button type="button" class="btn btn-primary" title="View"><i class="fa fa-eye"></i></button>&ndash;&gt;-->
+<!--<a routerLink="/detail/{{employee.empID}}">-->
+<!--<button type="button" class="btn btn-success ml-1" title="Edit"><i class="fa fa-edit"></i></button>-->
+<!--</a>-->
+<!--<button type="button" class="btn btn-danger ml-1" title="Delete" (click)="delete(employee)"><i-->
+<!--class="fa fa-trash"></i></button>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
+
+
+<div style="margin-top: 1%">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+
+  <mat-table class="mat-elevation-z8" [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="ID">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> ID</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.empID}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.empName}}</mat-cell>
+    </ng-container>
+
+    <!-- Active Column -->
+    <ng-container matColumnDef="Active">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Active</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.empActive}}</mat-cell>
+    </ng-container>
+
+    <!-- Department Column -->
+    <ng-container matColumnDef="Department">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Department</mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.departamentEntity.dpName}}</mat-cell>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="Actions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Actions</mat-header-cell>
+      <mat-cell *matCellDef="let employee">
+        <a routerLink="/detail/{{employee.empID}}">
+          <button mat-button color="primary">Edit</button>
+        </a>
+        <button mat-button color="accent" (click)="delete(employee)">Delete</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+
+
 

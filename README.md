@@ -1,6 +1,16 @@
-# TaskHomeAngl
+# Demo task
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.3.
+**Project created for learning aim to test angular framework for ability to create SPA and providing REST API technology.** <br/>
+
+As a back-end side with REST API is a project implemented with Spring framework. You can see the project by going over this [link.](https://github.com/Nazarii-Lutsiv/boot-ng-server.git)
+
+## Future upgrade
+
+Add logination page and add ability logination on back side by spring security
+
+## Version of Angular
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.1.
 
 ## Development server
 
