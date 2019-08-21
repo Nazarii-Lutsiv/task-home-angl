@@ -14,6 +14,7 @@ import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatTableModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { Error } from './error.interceptor/error.interceptor.component';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {

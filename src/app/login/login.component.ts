@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../user.service';
 import {HttpClient} from '@angular/common/http';
 import {AuthenticationService} from '../authentication.service';
+import {first} from 'rxjs/operators';
 
 
 @Component({
@@ -45,7 +46,12 @@ export class LoginComponent implements OnInit {
       return;
     }
     console.log(this.loginForm.value);
-    this.authService.login(this.loginForm['username'], this.loginForm['password']).subscribe(v => console.log(v));
+    this.authService.login(this.f.username.value, this.f.password.value)
+      .pipe(first()).subscribe(
+        data => {
+          console.log(data);
+        }
+    );
     // this.service.authenticate(this.loginForm, () => {
     //   this.router.navigateByUrl('/');
     // })
