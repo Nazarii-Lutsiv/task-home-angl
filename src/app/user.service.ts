@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {User} from './User';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  private apiUrl = 'http://localhost:8080/user';
   authenticated = false;
 
   constructor(private http: HttpClient,
@@ -13,7 +17,9 @@ export class UserService {
 
   }
 
-
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}` + `/regist`, user);
+  }
 
   // authenticate(credentials, callback) {
   //   const headers = new HttpHeaders(credentials ? {

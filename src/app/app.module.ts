@@ -7,7 +7,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import {UserService} from './registration/user.service';
+import {UserService} from './user.service';
 import { HomeComponent } from './home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import { EmployeeComponent } from './employee/employee.component';

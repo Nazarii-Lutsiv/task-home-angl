@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {UserService} from './registration/user.service';
+import {UserService} from './user.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 
