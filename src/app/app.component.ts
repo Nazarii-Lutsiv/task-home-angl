@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from './user.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
+import {AuthenticationService} from './authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +11,22 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent {
   title = 'Task-home-1';
+  currentUser;
 
-  constructor(private userService: UserService,
-              private http: HttpClient,
-              private router: Router) {
+  constructor(
+    private authService: AuthenticationService,
+    private http: HttpClient,
+    private router: Router) {
+    this.authService.currentUser.subscribe(x => this.currentUser = x);
     // this.userService.authenticate(undefined, undefined);
   }
 
-  loguot(): void {
-    this.http.post('logout', {}).lift(() => {
-        this.userService.authenticated = false;
-        this.router.navigateByUrl('/login');
-      }).subscribe();
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    // this.http.post('logout', {}).lift(() => {
+    //   this.userService.authenticated = false;
+    //   this.router.navigateByUrl('/login');
+    // }).subscribe();
   }
 }

@@ -9,8 +9,8 @@
           <input type="text" formControlName="empName" required class="form-control"
                  [ngModel]="empName"
                  [ngClass]="{'is-invalid': submitted && f['empName'].errors}"
-                 value="{{employee.empName}}"
           />
+          <!--value="{{employee.empName}}"-->
           <div *ngIf="submitted && f['empName'].errors" class="invalid-feedback">
             <div *ngIf="f['empName'].errors">User name is required</div>
           </div>

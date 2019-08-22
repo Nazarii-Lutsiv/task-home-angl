@@ -7,7 +7,12 @@
   <!--<a routerLink="/regist">regist</a>-->
 <!--</nav>-->
 <!--<router-outlet></router-outlet>-->
-
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" routerLink="/employee">Home</a>
+    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+</nav>
 <div class="jumbotron">
   <!--<div class="container">-->
     <div class="row">
@@ -19,6 +24,8 @@
           <a role="button" class="btn btn-outline-primary" routerLink="/regist">regist</a>
           </nav>
         </div>-->
+        <!--<app-alert></app-alert>-->
+        <!--<alert></alert>-->
         <router-outlet></router-outlet>
         <!--<app-employee></app-employee>-->
       </div>

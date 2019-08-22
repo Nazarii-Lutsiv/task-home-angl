@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {User} from '../User';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../user.service';
+import {first} from 'rxjs/operators';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class RegistrationComponent implements OnInit {
   userForm: FormGroup;
   user: User;
   submitted = false;
+  errorMessage = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,7 +75,16 @@ export class RegistrationComponent implements OnInit {
       username: this.f['username'].value,
       token: null
     };
-    this.userService.createUser(this.user).subscribe(value => console.log(value));
+    this.userService.createUser(this.user)
+      .pipe(first())
+      .subscribe(data => {
+        // this.alertService.success('Registration successful', true);
+        this.router.navigate(['/login']);
+      },
+        error => {
+          this.errorMessage = true;
+        // this.alertService.error(error);
+        });
     /*else {
       this.http.post('http://localhost:8080/regist', JSON.stringify(
         this.userForm
@@ -87,6 +98,7 @@ export class RegistrationComponent implements OnInit {
   }
   cancel() {
     this.submitted = false;
+    this.errorMessage = false;
     this.userForm.reset();
   }
 }

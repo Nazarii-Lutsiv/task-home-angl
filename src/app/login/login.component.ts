@@ -18,21 +18,31 @@ export class LoginComponent implements OnInit {
   user: User;
   loginForm: FormGroup;
   submitted = false;
+  loading = false;
+  errorMessage = false;
+  returnUrl: string;
 
   constructor(
     // private service: UserService,
     private authService: AuthenticationService,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private location: Location
-  ) { }
+    private route: Router,
+    // private location: Location
+  ) {
+    // redirect to employee page if already logged in
+    if (this.authService.currentUserValue) {
+      this.route.navigate(['/employee']);
+    }
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
+    // get return url from route parameters or default to '/'
+    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   // convenience getter for easy access to form fields
@@ -45,16 +55,27 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
+    this.loading = true;
     this.authService.login(this.f.username.value, this.f.password.value)
-      .pipe(first()).subscribe(
+    .pipe(first()).subscribe(
         data => {
-          console.log(data);
-        }
+          // console.log(data);
+          this.route.navigate(['/employee']);
+        },
+      error => {
+          this.loading = false;
+          this.errorMessage = true;
+      }
     );
     // this.service.authenticate(this.loginForm, () => {
     //   this.router.navigateByUrl('/');
     // })
     // console.log(this.loginForm.value);
+  }
+
+  cancel() {
+    this.errorMessage = false;
+    this.loginForm.reset();
   }
 }

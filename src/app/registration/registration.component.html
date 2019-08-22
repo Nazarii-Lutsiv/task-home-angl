@@ -2,7 +2,7 @@
   <h5 class="card-header">Registration User</h5>
   <div class="card-body">
     <form [formGroup]="userForm" (ngSubmit)="submit()">
-
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage">Can't regist user, try again</div>
       <div class="form-group">
         <label>User Name</label>
         <input type="text" formControlName="username" class="form-control"

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Employee} from '../Employee';
 import {EmployeeService} from '../employee.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -7,13 +7,19 @@ import {Location} from '@angular/common';
 import {DeparService} from '../depar.service';
 import {Departament} from '../Departament';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {AuthenticationService} from '../authentication.service';
+import {User} from '../User';
+import {Subscription} from 'rxjs';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.css']
 })
-export class EmployeeComponent implements OnInit {
+export class EmployeeComponent implements OnInit/*, OnDestroy */{
+  currentUser: User;
+  currentUserSubscription: Subscription;
   submitted = false;
   empForm: FormGroup;
   employees: Employee[];
@@ -27,10 +33,14 @@ export class EmployeeComponent implements OnInit {
   constructor(
     private empService: EmployeeService,
     private depService: DeparService,
+    private authService: AuthenticationService,
     private formBuilder: FormBuilder,
     private location: Location
   ) {
     this.dataSource = new MatTableDataSource<Employee>(this.employees);
+    // this.currentUserSubscription = this.authService.currentUser.subscribe(user => {
+    //   this.currentUser = user;
+    // });
   }
 
   ngOnInit(): void {
@@ -43,7 +53,12 @@ export class EmployeeComponent implements OnInit {
       departamentEntity: ['departamentEntity', Validators.required],
       empActive: ['empActive']
     });
+
   }
+
+  // ngOnDestroy(): void {
+  //   this.currentUserSubscription.unsubscribe();
+  // }
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -58,11 +73,14 @@ export class EmployeeComponent implements OnInit {
   }
 
   initDepList() {
-    this.depService.getDepartList().subscribe(departments => this.departments = departments);
+    this.depService.getDepartList()
+      .pipe(first())
+      .subscribe(departments => this.departments = departments);
   }
 
   getEmployee(): void {
     this.empService.getEmployeeList()
+      .pipe(first())
       .subscribe(employees => {
         employees.sort((emp1, emp2) => {
           if (emp1.empID > emp2.empID) {return 1; }
@@ -80,9 +98,9 @@ export class EmployeeComponent implements OnInit {
       return;
     }
     this.empService.createEmployee(this.empForm.value).subscribe(value => {
-      this.employees.push(value);
       this.dataSource.data.push(value);
       this.dataSource.data = [...this.dataSource.data];
+      this.employees.push(value);
     });
     console.log(this.empForm.value);
   }

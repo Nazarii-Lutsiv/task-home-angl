@@ -14,7 +14,8 @@ import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatTableModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { Error } from './error.interceptor/error.interceptor.component';
+import {JwtInterceptor} from './jwt.interceptor';
+import {ErrorInterceptor} from './error.interceptor';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -43,7 +44,6 @@ const modules = [
     HomeComponent,
     EmployeeComponent,
     EmployeeDetailsComponent,
-    // ...modules
   ],
   imports: [
     BrowserModule,
@@ -54,7 +54,11 @@ const modules = [
     BrowserAnimationsModule,
     ...modules
   ],
-  providers: [UserService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    UserService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true}
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
