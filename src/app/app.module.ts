@@ -7,15 +7,14 @@ import { RegistrationComponent } from './registration/registration.component';
 import {FormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import {UserService} from './user.service';
-import { HomeComponent } from './home/home.component';
+import {UserService} from './services/user.service';
 import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatPaginatorModule, MatRippleModule, MatTableModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {JwtInterceptor} from './jwt.interceptor';
-import {ErrorInterceptor} from './error.interceptor';
+import {JwtInterceptor} from './interceptor/jwt.interceptor';
+import {ErrorInterceptor} from './interceptor/error.interceptor';
 
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
@@ -41,7 +40,6 @@ const modules = [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    HomeComponent,
     EmployeeComponent,
     EmployeeDetailsComponent,
   ],

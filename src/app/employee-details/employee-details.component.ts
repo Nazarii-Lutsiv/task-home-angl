@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Employee} from '../Employee';
 import {ActivatedRoute} from '@angular/router';
-import {EmployeeService} from '../employee.service';
+import {EmployeeService} from '../services/employee.service';
 import {Location} from '@angular/common';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Departament} from '../Departament';
-import {DeparService} from '../depar.service';
+import {DeparService} from '../services/depar.service';
 
 @Component({
   selector: 'app-employee-details',

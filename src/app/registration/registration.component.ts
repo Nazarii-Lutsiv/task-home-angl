@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {User} from '../User';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../user.service';
+import {UserService} from '../services/user.service';
 import {first} from 'rxjs/operators';
 
 
@@ -78,23 +78,11 @@ export class RegistrationComponent implements OnInit {
     this.userService.createUser(this.user)
       .pipe(first())
       .subscribe(data => {
-        // this.alertService.success('Registration successful', true);
         this.router.navigate(['/login']);
       },
         error => {
           this.errorMessage = true;
-        // this.alertService.error(error);
         });
-    /*else {
-      this.http.post('http://localhost:8080/regist', JSON.stringify(
-        this.userForm
-      ), {observe: 'response'}).subscribe(value => {
-        console.log(value);
-      });
-    }*/
-
-    // console.log(this.userForm.value);
-    // this.router.navigate(['']);
   }
   cancel() {
     this.submitted = false;

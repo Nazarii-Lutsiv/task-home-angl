@@ -3,9 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {User} from '../User';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {UserService} from '../user.service';
+import {UserService} from '../services/user.service';
 import {HttpClient} from '@angular/common/http';
-import {AuthenticationService} from '../authentication.service';
+import {AuthenticationService} from '../services/authentication.service';
 import {first} from 'rxjs/operators';
 
 

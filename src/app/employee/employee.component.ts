@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Employee} from '../Employee';
-import {EmployeeService} from '../employee.service';
+import {EmployeeService} from '../services/employee.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {Location} from '@angular/common';
-import {DeparService} from '../depar.service';
+import {DeparService} from '../services/depar.service';
 import {Departament} from '../Departament';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {AuthenticationService} from '../authentication.service';
+import {AuthenticationService} from '../services/authentication.service';
 import {User} from '../User';
 import {Subscription} from 'rxjs';
 import {first} from 'rxjs/operators';
